@@ -7,20 +7,20 @@
   <meta name="description" content="A-MDM">
   <meta property="og:title" content="Interactive Character Control with Auto-Regressive Motion Diffusion Models "/>
   <meta property="og:description" content="Project Page of A-MDM"/>
-  <meta property="og:url" content="URL OF THE WEBSITE"/>
+  <meta property="og:url" content="https://yi-shi94.github.io/amdm_page/"/>
   <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
   <meta property="og:image" content="static/images/teaser.jpg" />
   <meta property="og:image:width" content="1200"/>
   <meta property="og:image:height" content="630"/>
 
 
-  <meta name="twitter:title" content="TWITTER BANNER TITLE META TAG">
-  <meta name="twitter:description" content="TWITTER BANNER DESCRIPTION META TAG">
+  <meta name="twitter:title" content="Interactive Character Control with Auto-Regressive Motion Diffusion Models">
+  <meta name="twitter:description" content="accepted by SIGGRAPH2024/TOG">
   <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
-  <meta name="twitter:image" content="static/images/your_twitter_banner_image.png">
-  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="static/images/teaser.jpg">
+  <meta name="twitter:card" content="A-MDM (Auto-regressive Motion Diffusion Model), a conditional diffusion model that takes an initial pose as input, and auto-regressively generates successive motion frames conditioned on the previous frame. We also introduce a suite of techniques for incorporating interactive controls.">
   <!-- Keywords for your paper to be indexed by-->
-  <meta name="keywords" content="KEYWORDS SHOULD BE PLACED HERE">
+  <meta name="keywords" content="diffusion model; motion control; motion synthesis, reinforcement learning">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
@@ -98,14 +98,24 @@
 
                     <!-- Supplementary PDF link -->
                     <span class="link-block">
-                      <a href="static/pdfs/supplementary_material.pdf" target="_blank"
+                      <a href="https://docs.google.com/presentation/d/1KRxJh2ZoyV7dtKd25s_R4KGqslxCJyeqm5OGw24TKZU/edit?usp=sharing" target="_blank"
                       class="external-link button is-normal is-rounded is-dark">
                       <span class="icon">
-                        <i class="fas fa-file-pdf"></i>
+                        <i class="far fa-newspaper"></i>
                       </span>
-                      <span>Supplementary</span>
+                      <span>Poster</span>
                     </a>
                   </span>
+                  
+                  <span class="link-block">
+                    <a href="https://docs.google.com/presentation/d/1kA_LT9zi4nb7FbJjZGD_g692NfGSKbfXBuVEQxUEXAg/edit#slide=id.g286e3b2e534_2_65" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-slideshare"></i>
+                    </span>
+                    <span>Slides</span>
+                  </a>
+                </span>
 
                   <!-- Github link -->
                   <span class="link-block">
@@ -140,9 +150,6 @@
               </span>
                 
 
-
-
-
             </div>
           </div>
         </div>
@@ -173,6 +180,26 @@
     </div>
   </div>
 </section>
+
+
+
+<section class="hero is-small is-light">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3">Full Supplementary Video</h2>
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          
+          <div class="publication-video">
+            <iframe src="https://www.youtube.com/embed/5WE9hy0xCI4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 <!-- Paper abstract -->
 <section class="section hero is-light">
   
@@ -192,47 +219,77 @@
 
 </section>
 
-<!-- Paper abstract -->
-<section class="section hero is-light">
+
+<section class="section hero is-light"></section>
   
   <div class="container is-max-desktop">
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
         <h2 class="title is-3">Methods</h2>
+        
         <div class="content has-text-justified">
           <p>
+            <h4 class="title is-4">Base Model</h4>
             Unlike common approaches that rely on transformer architectures and numerous diffusion steps—often constrained by limited context windows and slow inference—we demonstrate that using MLP-based structures in diffusion models with fewer denoising steps is sufficient for synthesizing high-quality motions. 
             Our model is auto-regressive and each frame is generated based on its previous frame.     
             <img src="static/images/framework.png" alt="teaser"/>
-              <style>
-                .image1 {
-                  border-radius: 100%;
-                  opacity: 0.5;
-                  margin: auto;
-                }
-              </style>
-            Each layer in our architecture comprises fully connected layers, group normalization, and SiLU activation. 
-            The input features consist of a time embedding, the clean previous frame, and the noisy target frame from the prior denoising step. Our model then predicts the noise in the target frame.
+            <style>
+              .image1 {
+                border-radius: 100%;
+                opacity: 0.5;
+                margin: auto;
+              }
+            </style>
+            Each layer in our architecture consists of fully connected layers, group normalization, and SiLU activation. The input features include a time embedding, the clean previous motion frame, and the noisy target motion frame from the prior denoising step. Our model then predicts the noise in the target frame.
+            For each motion frame, we include root linear and angular velocities. We adopt the overparameterized design for local joint representations, where joint positions, joint rotations, and joint linear velocities are concatenated. 
+            In computing the output, only predicted joint rotations are used, avoiding the need for postprocessing steps like inverse kinematics that introduces extra errors. 
             <img src="static/images/archi.png" alt="teaser"/>
-              <style>
-                .image1 {
-                  border-radius: 100%;
-                  opacity: 0.5;
-                  margin: auto;
-                }
-              </style>
-            
-          
+            <style>
+              .image1 {
+                border-radius: 100%;
+                opacity: 0.5;
+                margin: auto;
+              }
+            </style>
+
+            <h4 class="title is-4">Character Control via Conditional Inpainting</h4>
+            We show that A-MDM is also amenable to diffusion model-based inpainting. This approach enables A-MDM to be used for
+            a wide range of tasks without requiring further fine-tuning. 
+            Users can modify elements within each motion frame, such as assigning root linear and angular velocities to make the character follow a specified trajectory. 
+            The interactive denoising process can then effectively generate a reasonable next motion frame based on both user specifications and the previous frame. 
+            <img src="static/images/user.png" alt="teaser"/>
+            <style>
+              .image1 {
+                border-radius: 100%;
+                opacity: 0.5;
+                margin: auto;
+              }
+            </style>
+
+            <h4 class="title is-4">Character Control via Training Hierarchical Controller</h4>
+            The predicted actions of the controller policies determine how to modify the denoised output at each denoising step. 
+            The controller is essentially steering the denoising process to generate the next motion frame that yields the highest future reward. 
+            The actions can be dilated and cover a handful of denosing steps. We refrain from applying control during the final few denoising steps to ensure the naturalness of the resulting motions.
+            One of the cool properties of our hierarchical controller is its ability to naturally preserve the stochasticity of diffusion models. 
+                       
+            <img src="static/images/hcontrol.png" alt="teaser"/>
+            <style>
+              .image1 {
+                border-radius: 100%;
+                opacity: 0.5;
+                margin: auto;
+              }
+            </style>
 
           </p>
         </div>
+
       </div>
     </div>
   </div>
 
 </section>
 
-<!-- End paper abstract -->
 
 <!--
 <section class="hero is-small">
@@ -270,22 +327,6 @@
 -->
 
 
-
-<section class="hero is-small is-light">
-  <div class="hero-body">
-    <div class="container">
-      <h2 class="title is-3">Full Supplementary Video</h2>
-      <div class="columns is-centered has-text-centered">
-        <div class="column is-four-fifths">
-          
-          <div class="publication-video">
-            <iframe src="https://www.youtube.com/embed/5WE9hy0xCI4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 
 <section class="hero is-small">
