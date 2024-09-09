@@ -87,7 +87,7 @@
                     <div class="publication-links">
                          <!-- Arxiv PDF link -->
                       <span class="link-block">
-                        <a href="https://arxiv.org/html/2306.00416v2" target="_blank"
+                        <a href="https://arxiv.org/html/2306.00416v4" target="_blank"
                         class="external-link button is-normal is-rounded is-dark">
                         <span class="icon">
                           <i class="fas fa-file-pdf"></i>
@@ -189,7 +189,47 @@
       </div>
     </div>
   </div>
+
+</section>
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
   
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Methods</h2>
+        <div class="content has-text-justified">
+          <p>
+            Unlike common approaches that rely on transformer architectures and numerous diffusion steps—often constrained by limited context windows and slow inference—we demonstrate that using MLP-based structures in diffusion models with fewer denoising steps is sufficient for synthesizing high-quality motions. 
+            Our model is auto-regressive and each frame is generated based on its previous frame.     
+            <img src="static/images/framework.png" alt="teaser"/>
+              <style>
+                .image1 {
+                  border-radius: 100%;
+                  opacity: 0.5;
+                  margin: auto;
+                }
+              </style>
+            Each layer in our architecture comprises fully connected layers, group normalization, and SiLU activation. 
+            The input features consist of a time embedding, the clean previous frame, and the noisy target frame from the prior denoising step. Our model then predicts the noise in the target frame.
+            <img src="static/images/archi.png" alt="teaser"/>
+              <style>
+                .image1 {
+                  border-radius: 100%;
+                  opacity: 0.5;
+                  margin: auto;
+                }
+              </style>
+            
+          
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </section>
 
 <!-- End paper abstract -->
