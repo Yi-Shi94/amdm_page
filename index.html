@@ -83,11 +83,14 @@
                   <p style="text-align: center;">
                     *Previous title: Controllable Motion Diffusion Model
                   </p>
+                  <p style="text-align: center;"></p>
+                    We have enhanced our model and now refer to it as A-MDM (Auto-Regressive Motion Diffusion Model).
+                  </p>
                   <div class="column has-text-centered">
                     <div class="publication-links">
                          <!-- Arxiv PDF link -->
                       <span class="link-block">
-                        <a href="https://arxiv.org/html/2306.00416v4" target="_blank"
+                        <a href="https://arxiv.org/pdf/2306.00416v4" target="_blank"
                         class="external-link button is-normal is-rounded is-dark">
                         <span class="icon">
                           <i class="fas fa-file-pdf"></i>
@@ -236,7 +239,7 @@
         
         <div class="content has-text-justified">
           <p>
-            <h4 class="title is-4">Base Model</h4>
+            <h4 class="title is-4">Base A-MDM Model</h4>
             Unlike common approaches that rely on transformer architectures and numerous diffusion steps—often constrained by limited context windows and slow inference—we demonstrate that using MLP-based structures in diffusion models with fewer denoising steps is sufficient for synthesizing high-quality motions. 
             Our model is auto-regressive and each frame is generated based on its previous frame.     
             <img src="static/images/framework.png" alt="teaser"/>
